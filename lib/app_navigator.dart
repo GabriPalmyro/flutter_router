@@ -38,7 +38,7 @@ class AppNavigatorImpl implements AppNavigator {
     Map<String, String>? queryParameters,
     Object? arguments,
   }) async =>
-      navigator.pushNamed(
+      navigator.router.pushNamed(
         route.name,
         extra: arguments,
         pathParameters: pathParameters ?? {},
@@ -47,7 +47,7 @@ class AppNavigatorImpl implements AppNavigator {
 
   @override
   void pop<T>([T? result]) {
-    navigator.canPop() ? navigator.pop(result) : SystemNavigator.pop(animated: true);
+    navigator.router.canPop() ? navigator.router.pop(result) : SystemNavigator.pop(animated: true);
   }
 
   @override
@@ -57,7 +57,7 @@ class AppNavigatorImpl implements AppNavigator {
     Map<String, String>? queryParameters,
     Object? arguments,
   }) async {
-    navigator.pushReplacementNamed(
+    navigator.router.pushReplacementNamed(
       route.name,
       pathParameters: pathParameters ?? {},
       queryParameters: queryParameters ?? {},
@@ -67,14 +67,14 @@ class AppNavigatorImpl implements AppNavigator {
 
   @override
   bool checkIfRouteIsInStack(Routes route) {
-    final routeInsideStack = navigator.routerDelegate.currentConfiguration.matches.any((match) {
+    final routeInsideStack = navigator.router.routerDelegate.currentConfiguration.matches.any((match) {
       return match.matchedLocation == route.path;
     });
     return routeInsideStack;
   }
 
   @override
-  bool canPop() => navigator.canPop();
+  bool canPop() => navigator.router.canPop();
 
   @override
   void popUntilRoute(Routes route, {bool checkIfInStack = false}) {
@@ -84,11 +84,11 @@ class AppNavigatorImpl implements AppNavigator {
       }
     }
 
-    while (Uri.parse(navigator.location).path != route.path) {
-      if (!canPop() || navigator.location == Routes.splash.path) {
+    while (navigator.router.routerDelegate.currentConfiguration.matches.last.matchedLocation != route.path) {
+      if (!navigator.router.canPop()) {
         return;
       }
-      pop();
+      navigator.router.pop();
     }
   }
 

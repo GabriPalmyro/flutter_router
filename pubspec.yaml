@@ -1,5 +1,5 @@
 name: router
-description: Router for apps
+description: Abstraction Router for apps
 publish_to: none
 version: 0.0.1
 
@@ -10,14 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   
-  go_router: ^8.2.0
-  provider: ^6.1.2
+  go_router: ^14.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
